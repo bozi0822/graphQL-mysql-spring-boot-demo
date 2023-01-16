@@ -39,8 +39,8 @@ public class EmployeeDataFetcher {
 	public Result<Void> addEmployee(@InputArgument EmployeeInput employeeInput) {
 		Result<Void> result = new Result<>(RespCodeEnum.SUCCESS);
 
-		int id = employeeInput.getId();
-		if (id < 1) {
+		Integer id = employeeInput.getId();
+		if (id != null && id < 1) {
 			throw new IllegalArgumentException("id must be larger than zero");
 		}
 
