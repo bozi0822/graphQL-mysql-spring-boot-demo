@@ -1,19 +1,14 @@
 package com.example.demo.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class Show {
-	private final String title;
-	private final Integer releaseYear;
 
-	public Show(String title, Integer releaseYear) {
-		this.title = title;
-		this.releaseYear = releaseYear;
-	}
+	private String title;
 
-	public String getTitle() {
-		return title;
-	}
+	private Integer releaseYear;
 
-	public Integer getReleaseYear() {
-		return releaseYear;
-	}
 }
