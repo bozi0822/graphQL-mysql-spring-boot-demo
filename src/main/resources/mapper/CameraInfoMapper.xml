@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.CameraInfoMapper">
+
+    <resultMap id="cameraInfoResultMap" type="com.example.demo.entity.CameraInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="camera_nickname" property="cameraNickname" jdbcType="VARCHAR"/>
+        <result column="cloud_id" property="cloudId" jdbcType="VARCHAR"/>
+        <result column="package_id" property="packageId" jdbcType="BIGINT"/>
+        <result column="factory_id" property="factoryId" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="user_bind_status" property="userBindStatus" jdbcType="BIT"/>
+        <result column="fail_status" property="failStatus" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, device_code, ctei, package_id, camera_nickname, cloud_id, factory_id, user_id,
+    user_bind_status, fail_status, channel_id, create_time, update_time, password
+    </sql>
+
+    <select id="getBindDeviceByPhoneId" resultType="com.example.demo.entity.CameraInfo"
+            resultMap="cameraInfoResultMap">
+        SELECT t1.*
+        FROM t_camera_info t1
+                 LEFT JOIN t_account_info t2 ON t1.user_id = t2.user_id
+        WHERE t2.phone_id = #{phoneId}
+          AND t1.user_bind_status = 1
+    </select>
+
+
+    <select id="findAll" resultType="com.example.demo.entity.CameraInfo"
+            resultMap="cameraInfoResultMap">
+        SELECT t1.*
+        FROM t_camera_info t1
+    </select>
+
+    <select id="selectBindInfoByDevId" resultType="com.example.demo.entity.CameraInfo"
+            resultMap="cameraInfoResultMap">
+        select * from t_camera_info where device_code = #{deviceCode,jdbcType=VARCHAR}
+        and user_bind_status = 1 limit 1
+    </select>
+
+    <select id="isBound" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_camera_info t1
+            LEFT JOIN t_account_info t2 ON t1.user_id = t2.user_id
+        <where>
+            t2.phone_id = #{phoneId}
+            AND t1.user_bind_status = 1
+            AND t1.device_code = #{deviceCode}
+        </where>
+    </select>
+
+    <select id="selectCameraInfoByUserIdAndDeviceCode" resultType="com.example.demo.entity.CameraInfo"
+            resultMap="cameraInfoResultMap">
+        select * from t_camera_info where device_code = #{deviceCode,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=BIGINT} limit 1
+    </select>
+
+    <insert id="insertSelective" parameterType="com.example.demo.entity.CameraInfo">
+        insert into t_camera_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deviceCode != null">
+                device_code,
+            </if>
+            <if test="cameraNickname != null">
+                camera_nickname,
+            </if>
+            <if test="cloudId != null">
+                cloud_id,
+            </if>
+            <if test="factoryId != null">
+                factory_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userBindStatus != null">
+                user_bind_status,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="failStatus != null">
+                fail_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="packageId != null">
+                package_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="deviceCode != null">
+                #{deviceCode,jdbcType=VARCHAR},
+            </if>
+
+            <if test="cameraNickname != null">
+                #{cameraNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="cloudId != null">
+                #{cloudId,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryId != null">
+                #{factoryId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userBindStatus != null">
+                #{userBindStatus,jdbcType=BIT},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="failStatus != null">
+                #{failStatus,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="packageId != null">
+                #{packageId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.CameraInfo">
+        update t_camera_info
+        <set>
+            <if test="deviceCode != null">
+                device_code = #{deviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cameraNickname != null">
+                camera_nickname = #{cameraNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="cloudId != null">
+                cloud_id = #{cloudId,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryId != null">
+                factory_id = #{factoryId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userBindStatus != null">
+                user_bind_status = #{userBindStatus,jdbcType=BIT},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=BIT},
+            </if>
+            <if test="failStatus != null">
+                fail_status = #{failStatus,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="packageId != null">
+                package_id = #{packageId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectCameraInfoByMap" parameterType="map" resultMap="cameraInfoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_camera_info
+        <where>
+            <if test="eqId!=null">
+                and id = #{eqId}
+            </if>
+            <if test="eqDeviceCode!=null">
+                and device_code = #{eqDeviceCode}
+            </if>
+            <if test="eqCameraNickName!=null">
+                and camera_nickname = #{eqCameraNickName}
+            </if>
+            <if test="eqCloudId!=null">
+                and cloud_id = #{eqCloudId}
+            </if>
+            <if test="eqFactoryId!=null">
+                and factory_id = #{eqFactoryId}
+            </if>
+            <if test="eqUserId!=null">
+                and user_id = #{eqUserId}
+            </if>
+            <if test="eqUserBindStatus!=null">
+                and user_bind_status= #{eqUserBindStatus}
+            </if>
+            <if test="eqChannelId!=null">
+                and channel_id= #{eqChannelId}
+            </if>
+            <if test="eqFailStatus!=null">
+                and fail_status= #{eqFailStatus}
+            </if>
+            <if test="eqCreateTime!=null">
+                and create_time= #{eqCreateTime}
+            </if>
+            <if test="eqUpdateTime!=null">
+                and update_time= #{eqUpdateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCloudIdByDeviceCodeAndPhone" resultType="java.lang.String">
+        select t1.cloud_id from t_camera_info t1
+        left join t_account_info t2
+        on t1.user_id = t2.user_id
+        where t1.device_code = #{deviceCode,jdbcType=VARCHAR} and t2.phone_id = #{phoneId,jdbcType=VARCHAR}
+        limit 1
+    </select>
+</mapper>
