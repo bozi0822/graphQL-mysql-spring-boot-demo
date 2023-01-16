@@ -10,4 +10,5 @@ public interface EmployeeMapper {
 
 	List<Employee> findAll();
 
+	Boolean insert(Employee employee);
 }

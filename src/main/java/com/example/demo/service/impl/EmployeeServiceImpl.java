@@ -17,4 +17,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Employee> findAll(){
 		return employeeMapper.findAll();
 	}
+
+	public Boolean insert(Employee employee){
+		return employeeMapper.insert(employee);
+	}
 }

@@ -1,0 +1,5 @@
+type EmployeesResult {
+    code: Int
+    msg: String
+    data: [Employee]
+}

@@ -1,0 +1,10 @@
+type Mutation {
+    addEmployee(employeeInput: EmployeeInput!):addEmployeeResult
+}
+
+input EmployeeInput {
+    id: Int
+    name: String
+    email: String
+    phone: String
+}

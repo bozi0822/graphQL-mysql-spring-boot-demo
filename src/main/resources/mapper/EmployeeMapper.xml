@@ -9,6 +9,39 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <insert id="insert" parameterType="com.example.demo.entity.Employee">
+        insert into
+        employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="email != null">
+                `email`,
+            </if>
+            <if test="phone != null">
+                `phone`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
 
     <select id="findAll" resultType="com.example.demo.entity.Employee"
             resultMap="employeeResultMap">
