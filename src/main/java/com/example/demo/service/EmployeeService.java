@@ -5,7 +5,7 @@ import com.example.demo.entity.Employee;
 import java.util.List;
 
 public interface EmployeeService {
-	List<Employee> findAll();
+	List<Employee> findAll(Employee employee);
 
 	Boolean insert(Employee employee);
 }

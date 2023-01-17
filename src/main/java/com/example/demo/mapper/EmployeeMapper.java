@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface EmployeeMapper {
 
-	List<Employee> findAll();
+	List<Employee> findAll(Employee employee);
 
 	Boolean insert(Employee employee);
 }

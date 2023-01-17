@@ -43,10 +43,25 @@
     </insert>
 
 
-    <select id="findAll" resultType="com.example.demo.entity.Employee"
+    <select id="findAll" parameterType="com.example.demo.entity.Employee" resultType="com.example.demo.entity.Employee"
             resultMap="employeeResultMap">
-        SELECT t1.*
-        FROM employee t1
+        SELECT *
+        FROM employee
+        <where>
+            1=1
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="email != null">
+                and `email` = #{email}
+            </if>
+            <if test="phone != null">
+                and `phone` = #{phone}
+            </if>
+        </where>
     </select>
 
 </mapper>

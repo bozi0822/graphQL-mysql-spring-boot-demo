@@ -10,6 +10,7 @@ import graphql.schema.DataFetchingEnvironment;
 import org.springframework.context.annotation.Bean;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,18 +22,20 @@ public class EmployeeDataFetcher {
 	private EmployeeService employeeService;
 
 	@DgsQuery
-	public List<Employee> employees(@InputArgument String nameFilter) {
-//		Result<List<Employee>> result = new Result<>(RespCodeEnum.SUCCESS);
-		List<Employee> employees = employeeService.findAll();
+	public List<Employee> employees(@InputArgument EmployeeInput employeeInput) {
 
-		if (nameFilter == null) {
-//			result.setData();
-			return employees;
+		if (employeeInput == null) {
+			return new ArrayList<>(0);
 		}
 
-		employees = employees.stream().filter(s -> s.getName().contains(nameFilter)).collect(Collectors.toList());
-//		result.setData(employees);
-		return employees;
+		Employee employee = new Employee();
+		employee.setId(employeeInput.getId());
+		employee.setPhone(employeeInput.getPhone());
+		employee.setName(employeeInput.getName());
+		employee.setEmail(employeeInput.getEmail());
+
+		return employeeService.findAll(employee);
+
 	}
 
 	@DgsMutation

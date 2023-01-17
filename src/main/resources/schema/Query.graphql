@@ -1,4 +1,4 @@
 type Query {
     shows(titleFilter: String): [Show]
-    employees(nameFilter: String): [Employee]
+    employees(employeeInput: EmployeeInput): [Employee]
 }
