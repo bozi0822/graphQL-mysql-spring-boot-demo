@@ -5,14 +5,14 @@ import com.example.demo.entity.EmployeeInput;
 import com.example.demo.result.RespCodeEnum;
 import com.example.demo.result.Result;
 import com.example.demo.service.EmployeeService;
-import com.netflix.graphql.dgs.*;
-import graphql.schema.DataFetchingEnvironment;
-import org.springframework.context.annotation.Bean;
+import com.netflix.graphql.dgs.DgsComponent;
+import com.netflix.graphql.dgs.DgsMutation;
+import com.netflix.graphql.dgs.DgsQuery;
+import com.netflix.graphql.dgs.InputArgument;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @DgsComponent
 public class EmployeeDataFetcher {
@@ -29,10 +29,7 @@ public class EmployeeDataFetcher {
 		}
 
 		Employee employee = new Employee();
-		employee.setId(employeeInput.getId());
-		employee.setPhone(employeeInput.getPhone());
-		employee.setName(employeeInput.getName());
-		employee.setEmail(employeeInput.getEmail());
+		employee.convert(employeeInput);
 
 		return employeeService.findAll(employee);
 
@@ -48,10 +45,8 @@ public class EmployeeDataFetcher {
 		}
 
 		Employee employee = new Employee();
-		employee.setId(employeeInput.getId());
-		employee.setPhone(employeeInput.getPhone());
-		employee.setName(employeeInput.getName());
-		employee.setEmail(employeeInput.getEmail());
+		employee.convert(employeeInput);
+
 		Boolean insert = employeeService.insert(employee);
 		if (!insert) {
 			result = new Result<>(RespCodeEnum.FAIL);

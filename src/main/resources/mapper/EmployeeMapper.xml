@@ -25,6 +25,12 @@
             <if test="phone != null">
                 `phone`,
             </if>
+            <if test="beginDate != null">
+                `beginDate`,
+            </if>
+            <if test="workAge != null">
+                `workAge`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -38,6 +44,12 @@
             </if>
             <if test="phone != null">
                 #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="beginDate != null">
+                #{beginDate,jdbcType=DATE},
+            </if>
+            <if test="workAge != null">
+                #{workAge,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -60,6 +72,12 @@
             </if>
             <if test="phone != null">
                 and `phone` = #{phone}
+            </if>
+            <if test="workAge != null">
+                and `workAge` = #{workAge}
+            </if>
+            <if test="beginDate != null">
+                and `beginDate` = #{beginDate}
             </if>
         </where>
     </select>

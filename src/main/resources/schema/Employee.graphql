@@ -1,5 +1,18 @@
+scalar Date
+
 type Employee {
     name: String
     email: String
     phone: String
+    workAge: Int
+    beginDate: Date
+}
+
+input EmployeeInput {
+    id: Int
+    name: String
+    email: String
+    phone: String
+    workAge: Int
+    beginDate: Date
 }

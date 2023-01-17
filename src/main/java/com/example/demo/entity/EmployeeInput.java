@@ -1,20 +1,9 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class EmployeeInput{
-
-	private Integer id;
-
-	private String name;
-
-	private String email;
-
-	private String phone;
-
+public class EmployeeInput extends Employee {
 }
