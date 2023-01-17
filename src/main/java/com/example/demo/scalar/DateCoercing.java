@@ -1,21 +1,20 @@
 package com.example.demo.scalar;
 
 import com.netflix.graphql.dgs.DgsScalar;
+import graphql.language.StringValue;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
+import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
 @DgsScalar(name = "Date")
 public class DateCoercing implements Coercing<Date, String> {
-	private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
+	private static final String PATTERN = "yyyy-MM-dd";
 
 	@Override
 	public String serialize(Object o) throws CoercingSerializeException {
@@ -38,10 +37,9 @@ public class DateCoercing implements Coercing<Date, String> {
 
 	@Override
 	public Date parseLiteral(Object o) throws CoercingParseLiteralException {
-		if (o instanceof String && Objects.nonNull(o)) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
-			LocalDateTime localDateTime = LocalDateTime.parse(o.toString(), formatter);
-			return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		if (o instanceof StringValue && Objects.nonNull(o)) {
+			DateTime dateTime = new DateTime(((StringValue) o).getValue());
+			return dateTime.toDate();
 		}
 		return null;
 	}
